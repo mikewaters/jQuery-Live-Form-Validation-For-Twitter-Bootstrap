@@ -13,7 +13,8 @@
             message: "",
             error_message_class: "help-inline",
             error_container_class: "control-group",
-            live: true
+            live: true,
+            append_to_control_group: true
         }, options);
         var SelfID = jQuery(this).attr("id");
         
@@ -85,7 +86,13 @@
                 if (jQueryObjectBeforeErrorMessage.next('.' + options['error_message_class']).length == 0) {
 
                     jQueryObjectBeforeErrorMessage.after('<span class="' + options['error_message_class'] + '">' + options['message'] + '</span>');
-					          jQuery(id).parents("div." + options['error_container_class']).addClass("error");
+                    if (options['append_to_control_group']) {
+                    	jQueryObjectBeforeErrorMessage.addClass('error');
+                        jQueryObjectBeforeErrorMessage.next().css({color: '#B94A48'});                 	
+                    }
+                    else {
+			jQuery(id).parents("div." + options['error_container_class']).addClass("error");
+                    }
                 }
 
 
@@ -104,6 +111,9 @@
         
         function getjQueryObjectBeforeErrorMessage(inputjQueryObject)
         {
+            if (options['append_to_control_group']) {
+            	return inputjQueryObject.closest('div.control-group');
+            }
              // check see if the twitter bootstrap appended text span tag is used
             if(inputjQueryObject.next().hasClass("add-on"))
             {
